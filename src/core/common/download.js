@@ -54,6 +54,7 @@ async function downloadPage(pageData, options) {
 		githubToken: options.githubToken,
 		githubUser: options.githubUser,
 		githubRepository: options.githubRepository,
+		githubFolder: options.githubFolder,
 		githubBranch: options.githubBranch,
 		saveWithCompanion: options.saveWithCompanion,
 		forceWebAuthFlow: options.forceWebAuthFlow,

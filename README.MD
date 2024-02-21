@@ -1,3 +1,16 @@
+# 二次开发说明
+
+我在寻找一款能够方便保存网页的工具，最终找到了SingleFile。但是SingleFile的功能还是有些不够完善，所以我决定对其进行二次开发。
+
+在 1d3361aff1 基础上，我对SingleFile进行了如下修改：
+
+1. Feature: 选择 Github 保存支持自定义文件夹
+2. Feature: 选择 Github 保存支持自动按照年、月进行文件夹分类
+3. FixBug: 修复项目依赖模块缺失
+4. FixBug: 修复 [!] RollupError: Node tried to load your configuration file as CommonJS even though it is likely an ES module. To resolve this, change the extension of your configuration to ".mjs", set "type": "module" in your package.json file or pass the "--bundleConfigAsCjs" flag.
+
+--------------------
+
 # SingleFile
 
 SingleFile is a Web Extension (and a CLI tool) compatible with Chrome, Firefox

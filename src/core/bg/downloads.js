@@ -199,7 +199,7 @@ async function downloadContent(contents, tab, incognito, message) {
 					prompt
 				});
 			} else if (message.saveToGitHub) {
-				response = await saveToGitHub(message.taskId, encodeSharpCharacter(message.filename), contents.join(""), message.githubToken, message.githubUser, message.githubRepository, message.githubBranch, {
+				response = await saveToGitHub(message.taskId, encodeSharpCharacter(message.filename), contents.join(""), message.githubToken, message.githubUser, message.githubRepository, message.githubFolder, message.githubBranch, {
 					filenameConflictAction: message.filenameConflictAction,
 					prompt
 				});
@@ -305,7 +305,7 @@ async function downloadCompressedContent(message, tab) {
 					prompt
 				});
 			} else if (message.saveToGitHub) {
-				response = await saveToGitHub(message.taskId, encodeSharpCharacter(message.filename), blob, message.githubToken, message.githubUser, message.githubRepository, message.githubBranch, {
+				response = await saveToGitHub(message.taskId, encodeSharpCharacter(message.filename), blob, message.githubToken, message.githubUser, message.githubRepository, message.githubFolder, message.githubBranch, {
 					filenameConflictAction: message.filenameConflictAction,
 					prompt
 				});
@@ -396,11 +396,11 @@ async function getDropboxAuthInfo(force) {
 	return authInfo;
 }
 
-async function saveToGitHub(taskId, filename, content, githubToken, githubUser, githubRepository, githubBranch, { filenameConflictAction, prompt }) {
+async function saveToGitHub(taskId, filename, content, githubToken, githubUser, githubRepository, githubFolder, githubBranch, { filenameConflictAction, prompt }) {
 	try {
 		const taskInfo = business.getTaskInfo(taskId);
 		if (!taskInfo || !taskInfo.cancelled) {
-			const client = new GitHub(githubToken, githubUser, githubRepository, githubBranch);
+			const client = new GitHub(githubToken, githubUser, githubRepository, githubFolder, githubBranch);
 			business.setCancelCallback(taskId, () => client.abort());
 			return await client.upload(filename, content, { filenameConflictAction, prompt });
 		}

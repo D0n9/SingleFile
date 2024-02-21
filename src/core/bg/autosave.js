@@ -194,7 +194,7 @@ async function saveContent(message, tab) {
 							filenameConflictAction: options.filenameConflictAction
 						});
 					} else if (options.saveToGitHub) {
-						await (await downloads.saveToGitHub(message.taskId, downloads.encodeSharpCharacter(pageData.filename), content, options.githubToken, options.githubUser, options.githubRepository, options.githubBranch, {
+						await (await downloads.saveToGitHub(message.taskId, downloads.encodeSharpCharacter(pageData.filename), content, options.githubToken, options.githubUser, options.githubRepository, options.githubFolder, options.githubBranch, {
 							filenameConflictAction: options.filenameConflictAction
 						})).pushPromise;
 					} else if (options.saveWithCompanion && !options.compressContent) {

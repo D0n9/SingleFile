@@ -23,7 +23,7 @@
 
 /* global fetch, btoa, Blob, FileReader, AbortController */
 
-const EMPTY_STRING = "";
+const EMPTY_STRING = "Upload From SingleFile";
 const CONFLICT_ACTION_SKIP = "skip";
 const CONFLICT_ACTION_UNIQUIFY = "uniquify";
 const CONFLICT_ACTION_OVERWRITE = "overwrite";
@@ -46,13 +46,15 @@ const GITHUB_API_URL = "https://api.github.com";
 const BLOB_PATH = "blob";
 const REPOS_PATH = "repos";
 const CONTENTS_PATH = "contents";
+const CURRENT_YEAR = new Date().getFullYear().toString();
+const CURRENT_MONTH = (new Date().getMonth() + 1).toString();
 
 export { GitHub };
 
 let pendingPush;
 
 class GitHub {
-	constructor(token, userName, repositoryName, branch) {
+	constructor(token, userName, repositoryName, folder, branch) {
 		this.headers = new Map([
 			[AUTHORIZATION_HEADER, BEARER_PREFIX_AUTHORIZATION + token],
 			[ACCEPT_HEADER, GITHUB_API_CONTENT_TYPE],
@@ -60,6 +62,7 @@ class GitHub {
 		]);
 		this.userName = userName;
 		this.repositoryName = repositoryName;
+		this.folder = folder;
 		this.branch = branch;
 	}
 
@@ -68,7 +71,7 @@ class GitHub {
 		options.signal = this.controller.signal;
 		options.headers = this.headers;
 		const base64Content = content instanceof Blob ? await blobToBase64(content) : btoa(unescape(encodeURIComponent(content)));
-		return upload(this.userName, this.repositoryName, this.branch, path, base64Content, options);
+		return upload(this.userName, this.repositoryName, this.folder, this.branch, path, base64Content, options);
 	}
 
 	abort() {
@@ -78,7 +81,7 @@ class GitHub {
 	}
 }
 
-async function upload(userName, repositoryName, branch, path, content, options) {
+async function upload(userName, repositoryName, folder, branch, path, content, options) {
 	const { filenameConflictAction, prompt, signal, headers } = options;
 	while (pendingPush) {
 		await pendingPush;
@@ -89,10 +92,13 @@ async function upload(userName, repositoryName, branch, path, content, options) 
 		pendingPush = null;
 	}
 	return {
-		url: `${GITHUB_URL}/${userName}/${repositoryName}/${BLOB_PATH}/${branch}/${path}`
+		url: `${GITHUB_URL}/${userName}/${repositoryName}/${BLOB_PATH}/${branch}/${folder}/${path}`
 	};
 
 	async function createContent({ path, content, message = EMPTY_STRING, sha }) {
+		if (path) {
+			message = `Saved "${path}"`;
+		}
 		try {
 			const response = await fetchContentData(PUT_METHOD, JSON.stringify({
 				content,
@@ -140,7 +146,7 @@ async function upload(userName, repositoryName, branch, path, content, options) 
 		}
 
 		function fetchContentData(method, body) {
-			return fetch(`${GITHUB_API_URL}/${REPOS_PATH}/${userName}/${repositoryName}/${CONTENTS_PATH}/${path}`, {
+			return fetch(`${GITHUB_API_URL}/${REPOS_PATH}/${userName}/${repositoryName}/${CONTENTS_PATH}/${folder}/${CURRENT_YEAR}/${CURRENT_MONTH}/${path}`, {
 				method,
 				headers,
 				body,

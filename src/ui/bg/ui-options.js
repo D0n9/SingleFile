@@ -87,6 +87,7 @@ const saveToGitHubLabel = document.getElementById("saveToGitHubLabel");
 const githubTokenLabel = document.getElementById("githubTokenLabel");
 const githubUserLabel = document.getElementById("githubUserLabel");
 const githubRepositoryLabel = document.getElementById("githubRepositoryLabel");
+const githubFolderLabel = document.getElementById("githubFolderLabel");
 const githubBranchLabel = document.getElementById("githubBranchLabel");
 const saveWithCompanionLabel = document.getElementById("saveWithCompanionLabel");
 const compressHTMLLabel = document.getElementById("compressHTMLLabel");
@@ -226,6 +227,7 @@ const saveToGitHubInput = document.getElementById("saveToGitHubInput");
 const githubTokenInput = document.getElementById("githubTokenInput");
 const githubUserInput = document.getElementById("githubUserInput");
 const githubRepositoryInput = document.getElementById("githubRepositoryInput");
+const githubFolderInput = document.getElementById("githubFolderInput");
 const githubBranchInput = document.getElementById("githubBranchInput");
 const saveWithCompanionInput = document.getElementById("saveWithCompanionInput");
 const saveToFilesystemInput = document.getElementById("saveToFilesystemInput");
@@ -624,6 +626,7 @@ saveToGitHubLabel.textContent = browser.i18n.getMessage("optionSaveToGitHub");
 githubTokenLabel.textContent = browser.i18n.getMessage("optionGitHubToken");
 githubUserLabel.textContent = browser.i18n.getMessage("optionGitHubUser");
 githubRepositoryLabel.textContent = browser.i18n.getMessage("optionGitHubRepository");
+githubFolderLabel.textContent = browser.i18n.getMessage("optionGithubFolder");
 githubBranchLabel.textContent = browser.i18n.getMessage("optionGitHubBranch");
 saveWithCompanionLabel.textContent = browser.i18n.getMessage("optionSaveWithCompanion");
 compressHTMLLabel.textContent = browser.i18n.getMessage("optionCompressHTML");
@@ -918,6 +921,8 @@ async function refresh(profileName) {
 	githubUserInput.disabled = !profileOptions.saveToGitHub;
 	githubRepositoryInput.value = profileOptions.githubRepository;
 	githubRepositoryInput.disabled = !profileOptions.saveToGitHub;
+	githubFolderInput.value = profileOptions.githubFolder;
+	githubFolderInput.disabled = !profileOptions.saveToGitHub;
 	githubBranchInput.value = profileOptions.githubBranch;
 	githubBranchInput.disabled = !profileOptions.saveToGitHub;
 	saveWithCompanionInput.checked = profileOptions.saveWithCompanion;
@@ -1054,6 +1059,7 @@ async function update() {
 			githubToken: githubTokenInput.value,
 			githubUser: githubUserInput.value,
 			githubRepository: githubRepositoryInput.value,
+			githubFolder: githubFolderInput.value,
 			githubBranch: githubBranchInput.value,
 			saveWithCompanion: saveWithCompanionInput.checked,
 			compressHTML: compressHTMLInput.checked,

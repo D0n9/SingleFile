@@ -651,6 +651,10 @@
 		"message": "仓库名称",
 		"description": "Options page label: 'repository name'"
 	},
+	"optionGitHubFolder": {
+		"message": "文件夹",
+		"description": "Options page label: 'folder'"
+	},
 	"optionGitHubBranch": {
 		"message": "分支名称",
 		"description": "Options page label: 'branch name'"
